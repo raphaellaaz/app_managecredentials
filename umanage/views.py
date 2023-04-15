@@ -4,3 +4,11 @@ from django.http import HttpResponse
 # Create your views here.
 def login(request):
     return HttpResponse('Hola bro todo beim, estas en umanage')
+
+
+def register(request):
+    pass
+
+
+def recovery(request):
+    pass
