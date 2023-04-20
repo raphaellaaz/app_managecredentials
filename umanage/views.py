@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist#, RelatedObjectDoesNotExist
 from .models import login, user
 from .forms import loginForm, userForm
 import uuid
@@ -39,21 +40,25 @@ def register(request):
             uborn=form1.cleaned_data['u_borndate']
             uphone=form1.cleaned_data['u_phone']
             #ulogin=form.cleaned_data['u_lastlogin']
-            log_ex=login.objects.filter(username=usern)
 
-            if not log_ex:
+            
+            if not login.objects.filter(username=usern):
                 log=login.objects.create(id=uuid.uuid4(),username=usern,password=passw)
-                log.usuario.create(id=uuid.uuid4(),u_name=uname, u_lastname=ulast, u_email=uemail, u_borndate=uborn, u_phone=uphone, u_lastlogin=uborn)
+                log.save()
+                user.objects.create(id=uuid.uuid4(),username=log,u_name=uname, u_lastname=ulast, u_email=uemail, u_borndate=uborn, u_phone=uphone, u_lastlogin=uborn)
             else:
-                #log_ex.usuario.create(id=uuid.uuid4(),u_name=uname, u_lastname=ulast, u_email=uemail, u_borndate=uborn, u_phone=uphone, u_lastlogin=uborn)
-                log_ex.usuario.id=uuid.uuid4()
-                log_ex.usuario.u_name=uname
-                log_ex.usuario.u_lastname=ulast
-                log_ex.usuario.id=u_email=uemail
-                log_ex.usuario.u_borndate=uborn
-                log_ex.usuario.u_phone=uphone
-                log_ex.usuario.u_lastlogin=uborn
-                log_ex.save()
+                log=login.objects.get(username=usern)
+    
+                user.objects.create(
+                    id=uuid.uuid4(),
+                    username=log,
+                    u_name=uname, 
+                    u_lastname=ulast, 
+                    u_email=uemail, 
+                    u_borndate=uborn, 
+                    u_phone=uphone, 
+                    u_lastlogin=uborn
+                    )
 
     return render(request, 'base.html', {'form': form, 'form1':form1, 'title':'Register Page'})
 
