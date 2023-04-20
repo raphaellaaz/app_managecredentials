@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import login, user
 from .forms import loginForm, userForm
@@ -23,27 +23,37 @@ def profile_set(request):
     return render(request, 'base.html', {'form': form, 'title':'Profile Page'})
 
 def register(request):
-    form=userForm()
-    form1=loginForm()
+    form1=userForm()
+    form=loginForm()
+
     if request.method=='POST':
-        form=userForm(request.POST)
-        form1=loginForm(request.POST)
+        form1=userForm(request.POST)
+        form=loginForm(request.POST)
         if form.is_valid() & form1.is_valid():
 
-            usern=form1.cleaned_data['username']
-            passw=form1.cleaned_data['password']
-            uname=form.cleaned_data['u_name']
-            ulast=form.cleaned_data['u_lastname']
-            uemail=form.cleaned_data['u_email']
-            uborn=form.cleaned_data['u_borndate']
-            uphone=form.cleaned_data['u_phone']
+            usern=form.cleaned_data['username']
+            passw=form.cleaned_data['password']
+            uname=form1.cleaned_data['u_name']
+            ulast=form1.cleaned_data['u_lastname']
+            uemail=form1.cleaned_data['u_email']
+            uborn=form1.cleaned_data['u_borndate']
+            uphone=form1.cleaned_data['u_phone']
             #ulogin=form.cleaned_data['u_lastlogin']
-            
-            if not login.objects.filter(username=usern):
-                log=login.objects.create(id=uuid.uuid4(),username=usern,password=passw)
-                userl=log.usuario.create(id=uuid.uuid4(),u_name=uname, u_lastname=ulast, u_email=uemail, u_borndate=uborn, u_phone=uphone, u_lastlogin=uborn)
+            log_ex=login.objects.filter(username=usern)
 
-            ##Alertar sobre que el usuario ya existe
+            if not log_ex:
+                log=login.objects.create(id=uuid.uuid4(),username=usern,password=passw)
+                log.usuario.create(id=uuid.uuid4(),u_name=uname, u_lastname=ulast, u_email=uemail, u_borndate=uborn, u_phone=uphone, u_lastlogin=uborn)
+            else:
+                #log_ex.usuario.create(id=uuid.uuid4(),u_name=uname, u_lastname=ulast, u_email=uemail, u_borndate=uborn, u_phone=uphone, u_lastlogin=uborn)
+                log_ex.usuario.id=uuid.uuid4()
+                log_ex.usuario.u_name=uname
+                log_ex.usuario.u_lastname=ulast
+                log_ex.usuario.id=u_email=uemail
+                log_ex.usuario.u_borndate=uborn
+                log_ex.usuario.u_phone=uphone
+                log_ex.usuario.u_lastlogin=uborn
+                log_ex.save()
 
     return render(request, 'base.html', {'form': form, 'form1':form1, 'title':'Register Page'})
 
