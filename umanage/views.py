@@ -14,20 +14,21 @@ def login_web(request): #Registro de user y password
         if form.is_valid():
             usern=form.cleaned_data['username']
             passw=form.cleaned_data['password']
-            lo=login.objects.get(username=usern)
-            if lo.password==passw:
-                return render(request, 'base.html', {'form':'esto esuna prueba'})
+            try:
+                lo=login.objects.get(username=usern)
+                if lo.password==passw:
+                    return render(request, 'login.html', {'form':'esto esuna prueba'})
+                else:
+                    return HttpResponse('Contraseña Incorrecta')
+            except ObjectDoesNotExist:
+                return HttpResponse('No existe Usuario')
     return render(request, 'login.html',{'form':form, 'title':'Login Page'})
-
-def profile_set(request):
-    form=userForm()
-    return render(request, 'base.html', {'form': form, 'title':'Profile Page'})
 
 def register(request):
     form1=userForm()
     form=loginForm()
 
-    if request.method=='POST':
+    if request.method =='POST':
         form1=userForm(request.POST)
         form=loginForm(request.POST)
         if form.is_valid() & form1.is_valid():
@@ -60,7 +61,7 @@ def register(request):
                     u_lastlogin=uborn
                     )
 
-    return render(request, 'base.html', {'form': form, 'form1':form1, 'title':'Register Page'})
+    return render(request, 'login.html', {'form': form, 'form1':form1, 'title':'Register Page'})
 
 def recovery(request):
-    return HttpResponse('Recovery')
+    return HttpResponse('Recovery: Se le envio un enlace de recuperacion a su correo registrado')
