@@ -7,7 +7,7 @@ class login(models.Model):
     password=models.CharField(max_length=60, null=False)
 
     def __str__(self):
-        return self.username
+        return 'Login '+ self.username
     
 class user(models.Model):
     id=models.UUIDField(default=uuid.uuid4(), editable=False, primary_key=True, null=False)
@@ -20,7 +20,7 @@ class user(models.Model):
     u_lastlogin=models.DateTimeField(null=False)
     
     def __str__(self):
-        return self.u_name
+        return 'User ' + self.u_name
 
 class credentials_user(models.Model):
     id=models.UUIDField(default=uuid.uuid4(), editable=False, primary_key=True, null=False)
