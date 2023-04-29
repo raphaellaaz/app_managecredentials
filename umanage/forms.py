@@ -14,4 +14,4 @@ class userForm(forms.ModelForm):
 class credentials_userForm(forms.ModelForm):
     class Meta:
         model=credentials_user
-        exclude=('id',)
+        exclude=('id','user_master',)

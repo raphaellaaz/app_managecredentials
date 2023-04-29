@@ -5,6 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist#, RelatedObjectDoesNotExis
 from .models import login, user, credentials_user
 from .forms import loginForm, userForm, credentials_userForm
 import uuid
+from .import views
+import json
 
 # Create your views here.
 def login_web(request): #Registro de user y password
@@ -17,31 +19,28 @@ def login_web(request): #Registro de user y password
             try:
                 lo=login.objects.get(username=usern)
                 if lo.password==passw:
-                    url=reverse('cred', args=[lo.pk])
-                    return redirect(url)
+                    request.session['usernow']=str(lo.id)
+                    return redirect('credentials')
                 else:
                     return HttpResponse('Contraseña Incorrecta')
             except ObjectDoesNotExist:
-                return HttpResponse('No existe User-Login')
-    return render(request, 'login.html',{'form':form, 'title':'Login Page'})
+                return HttpResponse('No existe User-Login') 
+    return render(request, 'login.html',{'log': 'Login', 'form':form, 'title':'Login Page'})
 
-def credentials(request):
+def credentials(request):##No deberia estar aqui, la movere despues a la app de loginuser
     form=credentials_userForm()
     if request.method=='POST':
         form=credentials_userForm(request.POST)
         if form.is_valid():
-
+            lid=request.session.get('usernow', None)
+            userm=user.objects.get(username=lid)
             tipo=form.cleaned_data['tipo']
             name_cred=form.cleaned_data['name_credential']
             pass_cred=form.cleaned_data['pass_credential']
-            usr=form.cleaned_data['user_master']
-            credentials_user.objects.create(id=uuid.uuid4(), tipo=tipo,name_credential=name_cred, pass_credential=pass_cred, user_master=usr)
+            credentials_user.objects.create(id=uuid.uuid4(), tipo=tipo, name_credential=name_cred, pass_credential=pass_cred,user_master=userm)
+            return HttpResponse(userm)
             
     return render(request, 'base.html', {'content': form})
-
-
-
-
 
 def register(request):
     form1=userForm()

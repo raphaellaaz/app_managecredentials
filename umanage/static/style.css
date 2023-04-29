@@ -1,13 +1,18 @@
 form {
+    padding: 5%;
     max-width: 500px;
     margin: auto;
-    background-color: aliceblue;
+    background-color: rgb(111, 175, 232);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
-  label {
+  label,
+  h1 {
     display: block;
     margin-bottom: 10px;
   }
-  
+
   input[type="text"],
   input[type="email"],
   textarea {
@@ -18,7 +23,10 @@ form {
     border-radius: 4px;
     box-sizing: border-box;
   }
-  
+  a{
+    display: block;
+    margin-top: 10px;
+  }
   button[type="submit"] {
     background-color: #4CAF50;
     color: white;
