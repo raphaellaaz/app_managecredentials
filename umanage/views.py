@@ -3,30 +3,12 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist#, RelatedObjectDoesNotExist
 from .models import login, user, credentials_user
-from .forms import loginForm, userForm, credentials_userForm
+from .forms import  userForm, credentials_userForm
 import uuid
 from .import views
 import json
 
 # Create your views here.
-def login_web(request): #Registro de user y password
-    form=loginForm()
-    if request.method=='POST':
-        form=loginForm(request.POST)
-        if form.is_valid():
-            usern=form.cleaned_data['username']
-            passw=form.cleaned_data['password']
-            try:
-                lo=login.objects.get(username=usern)
-                if lo.password==passw:
-                    request.session['usernow']=str(lo.id)
-                    return redirect('credentials')
-                else:
-                    return HttpResponse('Contraseña Incorrecta')
-            except ObjectDoesNotExist:
-                return HttpResponse('No existe User-Login') 
-    return render(request, 'login.html',{'log': 'Login', 'form':form, 'title':'Login Page'})
-
 def credentials(request):##No deberia estar aqui, la movere despues a la app de loginuser
     form=credentials_userForm()
     if request.method=='POST':

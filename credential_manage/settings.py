@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-vkt=_t-^j0q+9l=z3st23o*@^08w_u@-lj253z^(tr2-3*^qm#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'umanage',
+    'login',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'credentials_app',
         'USER': 'root',
-        'PASSWORD': 'Oso2020Coloroso',
+        'PASSWORD': 'PajaroAzul0127',
         'HOST': 'localhost',
         'PORT': '3306',
     }
