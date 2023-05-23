@@ -25,8 +25,9 @@ SECRET_KEY = 'django-insecure-vkt=_t-^j0q+9l=z3st23o*@^08w_u@-lj253z^(tr2-3*^qm#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+#AUTH_USER_MODEL = 'login.Ulogin'
 
 # Application definition
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'umanage',
+    'login',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'credentials_app',
         'USER': 'root',
-        'PASSWORD': 'Oso2020Coloroso',
+        'PASSWORD': 'PajaroAzul0127',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -104,6 +106,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+#PASSWORD HASHERS
+PASSWORD_HASHERS = [
+    #'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    #'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    #'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+]
 
 
 # Internationalization
@@ -122,6 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
