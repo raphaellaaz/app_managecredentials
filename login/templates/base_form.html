@@ -24,13 +24,13 @@
       </a>
       <ul class="nav nav-underline justify-content-end border-black border-2">
         <li class="nav-item">
-          <a class="nav-link " aria-current="page" href="{% url 'login' %}">Log In</a>
+          <a class="nav-link " aria-current="page" href="{% url 'login:homelog' %}">Log In</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="{% url 'register' %}">Sign In</a>
+          <a class="nav-link " href="{% url 'login:register' %}">Sign In</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="{% url 'recover' %}">Recover Account</a>
+          <a class="nav-link " href="{% url 'login:recover' %}">Recover Account</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled">Support</a>
@@ -46,7 +46,7 @@
       <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-8 p-5 rounded fondo-container border border-5">
           <form action="" method="POST">
-            {%csrf_token%}
+            {% csrf_token %}
             <h1>{{title_form}}</h1>
             <table class="table">
               {{form}}
